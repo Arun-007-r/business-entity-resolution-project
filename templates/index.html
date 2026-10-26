@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Entity Resolution Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">ER</div>
+          <div>
+            <p class="mini-label">Data Intelligence</p>
+            <h1>Entity Resolution Studio</h1>
+          </div>
+        </div>
+        <div class="status-badge">
+          <span class="dot"></span>
+          Model Ready
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="hero panel">
+          <div class="hero-copy">
+            <p class="eyebrow">Business entity matching</p>
+            <h2>Link duplicate records across multiple enterprise datasets.</h2>
+            <p class="subtitle">
+              Upload source files, score candidate pairs, and generate a clean ML-driven match output for downstream reconciliation.
+            </p>
+          </div>
+
+          <div class="hero-stats">
+            <div class="metric-card">
+              <span>Source 1</span>
+              <strong id="s1">0</strong>
+            </div>
+            <div class="metric-card">
+              <span>Source 2</span>
+              <strong id="s2">0</strong>
+            </div>
+            <div class="metric-card">
+              <span>Source 3</span>
+              <strong id="s3">0</strong>
+            </div>
+            <div class="metric-card highlight">
+              <span>Matches</span>
+              <strong id="m">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel upload-panel">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Workspace</p>
+              <h3>Upload datasets</h3>
+            </div>
+            <span class="pill">3 TSV inputs</span>
+          </div>
+
+          <div class="upload-grid">
+            <label class="file-card" for="f1">
+              <div class="file-top">
+                <span class="card-id">Source 1</span>
+                <span class="card-tag">Primary</span>
+              </div>
+              <div class="file-icon">⇪</div>
+              <p>Upload the candidate dataset</p>
+              <input id="f1" type="file" accept=".tsv">
+              <span id="n1" class="file-name">No file selected</span>
+            </label>
+
+            <label class="file-card" for="f2">
+              <div class="file-top">
+                <span class="card-id">Source 2</span>
+                <span class="card-tag alt">Reference</span>
+              </div>
+              <div class="file-icon">⇪</div>
+              <p>Upload the matching reference</p>
+              <input id="f2" type="file" accept=".tsv">
+              <span id="n2" class="file-name">No file selected</span>
+            </label>
+
+            <label class="file-card" for="f3">
+              <div class="file-top">
+                <span class="card-id">Source 3</span>
+                <span class="card-tag alt">Reference</span>
+              </div>
+              <div class="file-icon">⇪</div>
+              <p>Upload the second reference set</p>
+              <input id="f3" type="file" accept=".tsv">
+              <span id="n3" class="file-name">No file selected</span>
+            </label>
+          </div>
+
+          <div class="action-row">
+            <button id="run" type="button">Run Resolution</button>
+            <div id="loading" class="loader hidden">Processing records...</div>
+          </div>
+          <div id="error" class="error hidden"></div>
+        </section>
+
+        <section id="results" class="panel results-panel hidden">
+          <div class="results-header">
+            <div>
+              <p class="eyebrow">Results</p>
+              <h3>Resolved matches</h3>
+            </div>
+            <div class="threshold-box">
+              <span>Threshold</span>
+              <strong id="threshold">0.00</strong>
+            </div>
+          </div>
+
+          <div class="results-summary">
+            <div class="summary-box">
+              <small>Source 1 records</small>
+              <b id="s1-summary">0</b>
+            </div>
+            <div class="summary-box">
+              <small>Source 2 records</small>
+              <b id="s2-summary">0</b>
+            </div>
+            <div class="summary-box">
+              <small>Source 3 records</small>
+              <b id="s3-summary">0</b>
+            </div>
+            <div class="summary-box accent">
+              <small>Total matches</small>
+              <b id="m-summary">0</b>
+            </div>
+          </div>
+
+          <div class="table-shell">
+            <table>
+              <thead>
+                <tr>
+                  <th>Source 1 Entity</th>
+                  <th>Matched Entities</th>
+                </tr>
+              </thead>
+              <tbody id="body"></tbody>
+            </table>
+          </div>
+
+          <div class="download-row">
+            <a href="/api/download/matching">Download Matching Results</a>
+            <a href="/api/download/candidates">Download Candidates</a>
+            <a href="/api/download/submission">Download Submission ZIP</a>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
+
